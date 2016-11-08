@@ -17,4 +17,21 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Text_Layout" parent="@android:style/Widget">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        </style>
+
+    <style name="Text_Content" parent="@style/Text_Layout">
+
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:textColor">@color/text_color1</item>
+
+    </style>
+
+    <style name="Text_tips" parent="@style/Text_Layout">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textColor">@color/text_color2</item>
+
+    </style>
 </resources>

@@ -1,15 +1,19 @@
-package com.mersens.gank;
+package com.mersens.gank.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.mersens.gank.R;
+import com.mersens.gank.adapter.MyFragmentPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +22,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private List<String> tabTitles;
     private TabLayout mTabLayout;
-
+    private MyFragmentPagerAdapter mAdapter;
+    private ViewPager mViewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +44,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
         initDatas();
     }
 
@@ -57,6 +63,9 @@ public class MainActivity extends AppCompatActivity
         mTabLayout.addTab(mTabLayout.newTab().setText(tabTitles.get(3)));
         mTabLayout.addTab(mTabLayout.newTab().setText(tabTitles.get(4)));
         mTabLayout.addTab(mTabLayout.newTab().setText(tabTitles.get(5)));
+        mAdapter=new MyFragmentPagerAdapter(getSupportFragmentManager(),tabTitles);
+        mViewPager.setAdapter(mAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
     @Override
