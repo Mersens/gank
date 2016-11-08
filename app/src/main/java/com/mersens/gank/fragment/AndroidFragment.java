@@ -3,6 +3,7 @@ package com.mersens.gank.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.mersens.gank.entity.GankBean;
 import com.mersens.gank.mvp.presenter.IAndroidPresenter;
 import com.mersens.gank.mvp.view.IAndroidView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,10 +30,13 @@ public class AndroidFragment extends BaseFragment implements IAndroidView {
     public static final String ANDROID_TYPE = "Android";
     @BindView(R.id.id_recyclerview)
     RecyclerView mRecyclerView;
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
     private boolean isPrepared;
     private List<GankBean> mList;
     private GankAdapter mAdapter;
     private IAndroidPresenter mPresenter;
+    private boolean isRefresh=false;
     private int pageSize = 15;
     private int pageIndex = 1;
     private String type;
@@ -57,23 +62,43 @@ public class AndroidFragment extends BaseFragment implements IAndroidView {
         if (!isPrepared || !isVisible) {
             return;
         }
-        type=getArguments().getString(ANDROID_TYPE);
+        type = getArguments().getString(ANDROID_TYPE);
         init();
     }
 
     @Override
     public void init() {
+        mList=new ArrayList<>();
         mPresenter = new IAndroidPresenter(this);
         mPresenter.getInfo();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                isRefresh=true;
+                pageIndex=1;
+                mPresenter.getInfo();
+            }
+        });
     }
 
     @Override
     public <T> void onSuccess(T t) {
-        mList = (List<GankBean>) t;
+        List<GankBean> list = (List<GankBean>) t;
+        mList.addAll(list);
+        if(isRefresh){
+            mList.clear();
+            mList.addAll(list);
+        }
         if (mList != null && mList.size() > 0) {
-            mAdapter = new GankAdapter(mList,getActivity());
-            mRecyclerView.setAdapter(mAdapter);
+            if(mAdapter==null){
+                mAdapter = new GankAdapter(mList, getActivity());
+                mRecyclerView.setAdapter(mAdapter);
+            }else{
+                mAdapter.setList(mList);
+                mAdapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -94,7 +119,7 @@ public class AndroidFragment extends BaseFragment implements IAndroidView {
 
     @Override
     public void onError() {
-
+        stopRefresh();
     }
 
     public static Fragment getInstance(String type) {
@@ -103,5 +128,11 @@ public class AndroidFragment extends BaseFragment implements IAndroidView {
         bundle.putString(ANDROID_TYPE, type);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    public void stopRefresh(){
+        if(swipeRefreshLayout.isRefreshing()){
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 }
