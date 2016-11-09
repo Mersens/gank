@@ -8,7 +8,6 @@ import com.mersens.gank.fragment.AndroidFragment;
 import com.mersens.gank.fragment.FrontFragment;
 import com.mersens.gank.fragment.IOSFragment;
 import com.mersens.gank.fragment.ResourcesFragment;
-import com.mersens.gank.fragment.VideoFragment;
 import com.mersens.gank.fragment.WelfareFragment;
 
 import java.util.List;
@@ -33,19 +32,16 @@ public class MyFragmentPagerAdapter extends FragmentStatePagerAdapter {
                 fragment = AndroidFragment.getInstance(tabTitles.get(position));
                 break;
             case 1:
-                fragment = IOSFragment.getInstance();
+                fragment = IOSFragment.getInstance(tabTitles.get(position));
                 break;
             case 2:
-                fragment = WelfareFragment.getInstance();
+                fragment = WelfareFragment.getInstance(tabTitles.get(position));
                 break;
             case 3:
-                fragment = FrontFragment.getInstance();
+                fragment = FrontFragment.getInstance(tabTitles.get(position));
                 break;
             case 4:
-                fragment = VideoFragment.getInstance();
-                break;
-            case 5:
-                fragment = ResourcesFragment.getInstance();
+                fragment = ResourcesFragment.getInstance(tabTitles.get(position));
                 break;
         }
         return fragment;

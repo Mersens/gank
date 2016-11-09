@@ -52,17 +52,15 @@ public class MainActivity extends AppCompatActivity
     public void initDatas(){
         tabTitles = new ArrayList<String>();
         tabTitles.add("Android");
-        tabTitles.add("IOS");
+        tabTitles.add("iOS");
         tabTitles.add("福利");
         tabTitles.add("前端");
-        tabTitles.add("休息视频");
         tabTitles.add("拓展资源");
         mTabLayout.addTab(mTabLayout.newTab().setText(tabTitles.get(0)));
         mTabLayout.addTab(mTabLayout.newTab().setText(tabTitles.get(1)));
         mTabLayout.addTab(mTabLayout.newTab().setText(tabTitles.get(2)));
         mTabLayout.addTab(mTabLayout.newTab().setText(tabTitles.get(3)));
         mTabLayout.addTab(mTabLayout.newTab().setText(tabTitles.get(4)));
-        mTabLayout.addTab(mTabLayout.newTab().setText(tabTitles.get(5)));
         mAdapter=new MyFragmentPagerAdapter(getSupportFragmentManager(),tabTitles);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -97,18 +95,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.nav_camera) {
-        } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
