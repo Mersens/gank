@@ -3,7 +3,6 @@ package com.mersens.gank.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +33,6 @@ public class ImageDetailFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.layout_image_details, null);
         ButterKnife.bind(this, view);
         url = getArguments().getString(URL);
-        Log.e("ImageDetailFragment",url);
         return view;
     }
 

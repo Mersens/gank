@@ -53,7 +53,7 @@ public class WelfareAdapter extends RecyclerView.Adapter<WelfareAdapter.MyViewHo
         if(!TextUtils.isEmpty(bean.getUrl())){
             Glide.with(context).load(bean.getUrl()).into(holder.imageView);
         }
-        holder.itemView.setTag(position);
+        holder.itemView.setTag(bean.getUrl());
     }
 
 
@@ -78,13 +78,13 @@ public class WelfareAdapter extends RecyclerView.Adapter<WelfareAdapter.MyViewHo
     @Override
     public void onClick(View view) {
         if (mOnItemClickListener != null) {
-            mOnItemClickListener.onItemClick(view, (int)view.getTag());
+            mOnItemClickListener.onItemClick(view, (String)view.getTag());
         }
     }
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
     public interface OnRecyclerViewItemClickListener {
-        <T> void onItemClick(View view, int pos);
+        <T> void onItemClick(View view, String url);
     }
 }

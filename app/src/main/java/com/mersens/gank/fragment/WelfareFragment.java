@@ -80,7 +80,7 @@ public class WelfareFragment extends BaseFragment implements IWelfareView {
         mPresenter.getInfo();
         mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        SpacesItemDecoration decoration = new SpacesItemDecoration(5);
+        SpacesItemDecoration decoration = new SpacesItemDecoration(8);
         mRecyclerView.addItemDecoration(decoration);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);
@@ -102,7 +102,6 @@ public class WelfareFragment extends BaseFragment implements IWelfareView {
                 int lastVisiblePos = getMaxElem(lastVisiblePositions);
                 int totalItemCount = manager.getItemCount();
                 if (lastVisiblePos >= (totalItemCount - 6) && dy > 0) {
-                    //加载更多功能的代码
                     isLoading = true;
                     pageIndex++;
                     mPresenter.getInfo();
@@ -156,9 +155,9 @@ public class WelfareFragment extends BaseFragment implements IWelfareView {
                 mRecyclerView.setAdapter(mAdapter);
                 mAdapter.setOnItemClickListener(new WelfareAdapter.OnRecyclerViewItemClickListener() {
                     @Override
-                    public <T> void onItemClick(View view, int pos) {
+                    public <T> void onItemClick(View view, String pos) {
                         Intent intent = new Intent(getActivity(), ImageDetailActivity.class);
-                        intent.putExtra(ImageDetailActivity.URL, mList.get(pos).getUrl());
+                        intent.putExtra(ImageDetailActivity.URL, pos);
                         startActivity(intent);
                     }
                 });

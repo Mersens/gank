@@ -29,6 +29,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.ImageDetailActivity"/>
+        <activity android:name=".activity.WebActivity"/>
     </application>
 
 </manifest>

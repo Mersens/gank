@@ -105,6 +105,33 @@ public class RequestManager {
     }
 
 
+    public void download(Call<ResponseBody> call, final RequestCallBack callBack){
+        callBack.onStart();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                try {
+                    if (response.body() == null) {
+                        callBack.onError("请求发生未知错误");
+                        return;
+                    }
+                    if(PictureUtils.saveToDisk(response.body())){
+                        callBack.onSueecss("保存成功！");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                callBack.onError(t.toString());
+            }
+        });
+    }
+
+
     private void doRequest(final String string, final RequestCallBack callBack) {
         Observable.from(new String[]{string}).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

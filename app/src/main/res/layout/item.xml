@@ -10,6 +10,8 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/card_margin"
         android:layout_marginLeft="@dimen/card_margin"
+        app:cardElevation="4dp"
+        app:cardMaxElevation="4dp"
         android:layout_marginRight="@dimen/card_margin"
         app:cardCornerRadius="4dp">
 

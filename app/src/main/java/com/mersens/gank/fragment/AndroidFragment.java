@@ -1,5 +1,6 @@
 package com.mersens.gank.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.mersens.gank.R;
+import com.mersens.gank.activity.WebActivity;
 import com.mersens.gank.adapter.GankAdapter;
 import com.mersens.gank.entity.GankBean;
 import com.mersens.gank.mvp.presenter.IAndroidPresenter;
@@ -126,6 +129,15 @@ public class AndroidFragment extends BaseFragment implements IAndroidView {
             if (mAdapter == null) {
                 mAdapter = new GankAdapter(mList, getActivity());
                 mRecyclerView.setAdapter(mAdapter);
+                mAdapter.setOnItemClickListener(new GankAdapter.OnRecyclerViewItemClickListener() {
+
+                    @Override
+                    public void onItemClick(View view, String url) {
+                        Intent intent = new Intent(getActivity(), WebActivity.class);
+                        intent.putExtra(WebActivity.URL, url);
+                        startActivity(intent);
+                    }
+                });
             } else {
                 mAdapter.setList(mList);
                 mAdapter.notifyDataSetChanged();
