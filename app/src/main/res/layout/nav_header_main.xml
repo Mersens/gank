@@ -16,7 +16,7 @@
         android:id="@+id/img_user"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:paddingTop="24dp"
         android:src="@mipmap/ic_user"
         app:srcCompat="@android:drawable/sym_def_app_icon" />
 
@@ -24,7 +24,7 @@
         android:id="@+id/tv_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
+        android:paddingTop="8dp"
         android:text="Mersens"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     <TextView
@@ -32,6 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="626168564@qq.com"
-        android:paddingTop="10dp"
+        android:paddingTop="8dp"
         />
 </LinearLayout>

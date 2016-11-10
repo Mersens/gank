@@ -191,7 +191,7 @@ public class MainActivity extends BaseActivity
 
     public void confirmExit(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("是否退出软件？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        builder.setTitle("提示").setMessage("是否退出软件？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 App.getInstance().exit();
