@@ -1,5 +1,7 @@
 package com.mersens.gank.mvp.model;
 
+import android.util.Log;
+
 import com.mersens.gank.entity.GankBean;
 import com.mersens.gank.mvp.listener.IWelfareData;
 import com.mersens.gank.mvp.listener.OnResultListener;
@@ -31,6 +33,7 @@ public class IWelfareDataImpl implements IWelfareData {
     public void getInfo(String type, String pageSize, String pageIndex, final OnResultListener listener) {
         ServiceStore service=manager.create(ServiceStore.class);
         Call<ResponseBody> call=service.getInfo(type,pageSize,pageIndex);
+        Log.e("getInfo","pageIndex==="+pageIndex);
         manager.execute(call, new RequestManager.RequestCallBack() {
             @Override
             public void onSueecss(String msg) {

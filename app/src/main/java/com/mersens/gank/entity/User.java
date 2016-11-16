@@ -4,19 +4,28 @@ package com.mersens.gank.entity;
  * Created by Mersens on 2016/11/10.
  */
 
-public class UserBean {
+public class User {
+    private String id;
     private String login;
     private String avatar_url;
     private String email;
-    @Override
-    public String toString() {
-        return "UserBean{" +
-                "login='" + login + '\'' +
-                ", avatar_url='" + avatar_url + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+    private String name;
+
+    public String getId() {
+        return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getEmail() {
         return email;

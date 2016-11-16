@@ -1,6 +1,6 @@
 package com.mersens.gank.mvp.model;
 
-import com.mersens.gank.entity.UserBean;
+import com.mersens.gank.entity.User;
 import com.mersens.gank.mvp.listener.IUserInfo;
 import com.mersens.gank.mvp.listener.OnResultListener;
 import com.mersens.gank.service.ServiceStore;
@@ -31,10 +31,12 @@ public class IUserInfoImpl implements IUserInfo {
             public void onSueecss(String msg) {
                 try {
                     JSONObject jsonObject=new JSONObject(msg);
-                    UserBean user=new UserBean();
+                    User user=new User();
+                    user.setId(jsonObject.getString("id"));
                     user.setLogin(jsonObject.getString("login"));
                     user.setEmail(jsonObject.getString("email"));
                     user.setAvatar_url(jsonObject.getString("avatar_url"));
+                    user.setName(jsonObject.getString("name"));
                     listener.onSuccess(user);
                 } catch (JSONException e) {
                     e.printStackTrace();

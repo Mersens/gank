@@ -90,21 +90,29 @@ public class FrontFragment extends BaseFragment implements IFrontView{
             }
         });
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            boolean isSlidingToLast = false;
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                int lastVisibleItem = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
-                int totalItemCount = mLayoutManager.getItemCount();
-                if (lastVisibleItem >= totalItemCount - 5 && dy > 0) {
-                    isLoading = true;
-                    pageIndex++;
-                    mPresenter.getInfo();
+                if(dy > 0){
+                    isSlidingToLast = true;
+                }else{
+                    isSlidingToLast = false;
                 }
             }
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    int lastVisibleItem = ((LinearLayoutManager) mLayoutManager).findLastVisibleItemPosition();
+                    int totalItemCount = mLayoutManager.getItemCount();
+                    if (lastVisibleItem >= totalItemCount - 4 && isSlidingToLast) {
+                        isLoading = true;
+                        pageIndex++;
+                        mPresenter.getInfo();
+                    }
+                }
             }
         });
         swipeRefreshLayout.setRefreshing(true);

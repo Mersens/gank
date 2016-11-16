@@ -94,23 +94,31 @@ public class WelfareFragment extends BaseFragment implements IWelfareView {
             }
         });
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            boolean isSlidingToLast = false;
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                StaggeredGridLayoutManager manager = (StaggeredGridLayoutManager) recyclerView.getLayoutManager();
-                int[] lastVisiblePositions = manager.findLastVisibleItemPositions(new int[manager.getSpanCount()]);
-                int lastVisiblePos = getMaxElem(lastVisiblePositions);
-                int totalItemCount = manager.getItemCount();
-                if (lastVisiblePos >= (totalItemCount - 6) && dy > 0) {
-                    isLoading = true;
-                    pageIndex++;
-                    mPresenter.getInfo();
+                if(dy > 0){
+                    isSlidingToLast = true;
+                }else{
+                    isSlidingToLast = false;
                 }
             }
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    StaggeredGridLayoutManager manager = (StaggeredGridLayoutManager) recyclerView.getLayoutManager();
+                    int[] lastVisiblePositions = manager.findLastVisibleItemPositions(new int[manager.getSpanCount()]);
+                    int lastVisiblePos = getMaxElem(lastVisiblePositions);
+                    int totalItemCount = manager.getItemCount();
+                    if (lastVisiblePos >= (totalItemCount -1) && isSlidingToLast ) {
+                        isLoading = true;
+                        pageIndex  ++;
+                        mPresenter.getInfo();
+                    }
+                }
             }
         });
         swipeRefreshLayout.setRefreshing(true);

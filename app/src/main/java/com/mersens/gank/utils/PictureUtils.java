@@ -1,7 +1,5 @@
 package com.mersens.gank.utils;
 
-import android.util.Log;
-
 import com.mersens.gank.app.Constans;
 
 import java.io.File;
@@ -26,11 +24,8 @@ public class PictureUtils {
                 futureStudioIconFile.mkdirs();
             }
             File myCaptureFile = new File(futureStudioIconFile, UUID.randomUUID()+".jpg");
-            Log.e("UUID",UUID.randomUUID().toString());
             if (!myCaptureFile.exists()) {
                 myCaptureFile.createNewFile();
-            }else{
-                myCaptureFile.delete();
             }
             InputStream inputStream = null;
             OutputStream outputStream = null;

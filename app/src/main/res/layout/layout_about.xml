@@ -7,6 +7,7 @@
 
     >
     <RelativeLayout
+        android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="24dp"
         android:layout_marginLeft="16dp"
@@ -52,6 +53,7 @@
 
         >
     <TextView
+        android:id="@+id/tv_js"
         style="@style/Text_tips"
         android:text="http://www.jianshu.com/users/6052fd5d43dc/latest_articles"
         android:layout_centerVertical="true"
@@ -80,6 +82,7 @@
         android:layout_marginRight="16dp"
         >
         <TextView
+            android:id="@+id/tv_gh"
             style="@style/Text_tips"
             android:text="http://github.com/Mersens"
             android:layout_centerVertical="true"

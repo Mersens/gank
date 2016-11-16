@@ -2,6 +2,7 @@ package com.mersens.gank.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,7 @@ public class GankAdapter extends RecyclerView.Adapter<GankAdapter.MyViewHolder> 
         holder.tv_name.setText(bean.getWho());
         holder.tv_time.setText(time);
         holder.itemView.setTag(bean.getUrl());
+        holder.tv_content.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
 

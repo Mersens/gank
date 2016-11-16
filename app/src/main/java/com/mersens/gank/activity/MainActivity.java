@@ -28,8 +28,11 @@ import com.mersens.gank.R;
 import com.mersens.gank.adapter.MyFragmentPagerAdapter;
 import com.mersens.gank.app.App;
 import com.mersens.gank.app.Constans;
+import com.mersens.gank.db.GankDao;
+import com.mersens.gank.db.GankDaoImpl;
+import com.mersens.gank.db.SharePreferenceUtils;
 import com.mersens.gank.entity.SkinChangeEvent;
-import com.mersens.gank.entity.UserBean;
+import com.mersens.gank.entity.User;
 import com.mersens.gank.fragment.AboutFragment;
 import com.mersens.gank.mvp.presenter.IUserInfoPresenter;
 import com.mersens.gank.mvp.view.IUserInfoView;
@@ -54,6 +57,9 @@ public class MainActivity extends BaseActivity
     private CircleImageView img_user;
     private TextView tv_name;
     private TextView tv_email;
+    private Toolbar toolbar;
+    private NavigationView navigationView;
+    private GankDao dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +69,8 @@ public class MainActivity extends BaseActivity
     }
 
     public void init(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+         toolbar = (Toolbar) findViewById(R.id.toolbar);
+         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -72,7 +78,8 @@ public class MainActivity extends BaseActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_front);
         navigationView.setNavigationItemSelectedListener(this);
         View view=navigationView.getHeaderView(0);
         img_user=(CircleImageView) view.findViewById(R.id.img_user);
@@ -86,6 +93,7 @@ public class MainActivity extends BaseActivity
 
 
     public void initDatas(){
+        dao=new GankDaoImpl(MainActivity.this);
         IUserInfoPresenter presenter=new IUserInfoPresenter(this);
         presenter.getInfo();
         tabTitles = new ArrayList<String>();
@@ -102,6 +110,39 @@ public class MainActivity extends BaseActivity
         mAdapter=new MyFragmentPagerAdapter(getSupportFragmentManager(),tabTitles);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                switch (position){
+                    case 0:
+                        navigationView.setCheckedItem(R.id.nav_android);
+                        break;
+                    case 1:
+                        navigationView.setCheckedItem(R.id.nav_ios);
+                        break;
+                    case 2:
+                        navigationView.setCheckedItem(R.id.nav_welfare);
+                        break;
+                    case 3:
+                        navigationView.setCheckedItem(R.id.nav_front);
+                        break;
+                    case 4:
+                        navigationView.setCheckedItem(R.id.nav_resource);
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -162,12 +203,22 @@ public class MainActivity extends BaseActivity
 
     @Override
     public <T> void onSuccess(T t) {
-        UserBean user=(UserBean)t;
+        User user=(User)t;
         tv_name.setText(user.getLogin());
         tv_email.setText(user.getEmail());
         Glide.with(MainActivity.this).load(user.getAvatar_url()).into(img_user);
-
+        saveToDb(user);
     }
+
+    //用户信息保存数据库
+    public  void saveToDb( User user){
+        SharePreferenceUtils.getInstance(App.getInstance()).setUserId(user.getId());
+        if(dao.findUserIsExist(user.getId()))
+            dao.updateUserInfo(user,user.getId());
+        else
+            dao.addUserInfo(user);
+    }
+
 
     @Override
     public String getUserName() {
@@ -211,17 +262,20 @@ public class MainActivity extends BaseActivity
             setTheme(R.style.BlueTheme);
             PreUtils.setCurrentTheme(this, Theme.Blue);
 
+
         } else if (selectedColor == getResources().getColor(R.color.colorRedPrimary)) {
             setTheme(R.style.RedTheme);
             PreUtils.setCurrentTheme(this, Theme.Red);
+
 
         } else if (selectedColor == getResources().getColor(R.color.colorBrownPrimary)) {
             setTheme(R.style.BrownTheme);
             PreUtils.setCurrentTheme(this, Theme.Brown);
 
+
         } else if (selectedColor == getResources().getColor(R.color.colorGreenPrimary)) {
             setTheme(R.style.GreenTheme);
-            PreUtils.setCurrentTheme(this, Theme.Green);
+
 
         } else if (selectedColor == getResources().getColor(R.color.colorPurplePrimary)) {
             setTheme(R.style.PurpleTheme);
